@@ -1,11 +1,11 @@
-# DevOps CI and Pipeline for .NET API
+# DevOps CI and CD Pipeline for .NET API
 
 ## Overview
 
-This repository showcases a real-world DevOps CI/CD pipeline implementation for a .NET 8 Web API, hosted on Azure. The main goal is to demonstrate automated, secure, and scalable build and release workflows using Azure Pipelines. In addition to meeting the functional needs of the `/count` API, the project emphasizes best practices such as:
+This project shows how to set up a DevOps CI and CD pipeline for a .NET 8 Web API running on Azure. It uses Azure Pipelines to automatically test, build, and deploy the app in a secure and reliable way. Along with making the /count API work, this project also follows good DevOps practices like:
 
 * Isolated development through feature branches
-* PR-based CI enforcement
+* PR based CI enforcement
 * Approval gates before merge to main
 * Deployment to Azure App Service only after successful CI validation
 
@@ -44,11 +44,11 @@ README.md                # Project documentation
 
 ---
 
-## 🔧 CI Pipeline: `azure-build.yml`
+## CI Pipeline: `azure-build.yml`
 
 This pipeline is responsible for validating and packaging the code.
 
-### ✅ What Happens in CI:
+### CI WORKFLOW:
 
 1. **Trigger**: Runs on push to `main` and also validates PRs targeting `main`
 2. **Restores dependencies** via `dotnet restore`
@@ -110,7 +110,7 @@ steps:
 
 This pipeline deploys the build artifact from CI to Azure App Service.
 
-### ✅ What Happens in CD:
+### ✅ CD workflow:
 
 1. **Trigger**: Automatically runs when CI on `main` succeeds
 2. **Fetches artifacts** produced by the CI pipeline
@@ -158,11 +158,11 @@ steps:
 
 ---
 
-## 🔒 PR Workflow & Branch Policy
+## 🔒 PR Workflow and Branch Policy implementation
 
 ### Git Workflow:
 
-* Developers push code to `feature/*`
+* Developers push code to `feature/general-updates*`
 * A PR is created targeting `main`
 * CI runs on the PR
 * Merge allowed **only after approval** and **CI success**
@@ -198,14 +198,17 @@ graph TD
 
 ---
 
-## 🎯 Outcome & Thought Process
+While working on this assignment, I wanted to approach it the way I would if I were building a CI/CD pipeline for a real-world team. My key focus areas were:
 
-This project simulates how a DevOps engineer in a real organization would set up:
+Making the entire workflow secure, automated, and reproducible from the start
 
-* **Safe DevOps pipeline** with approvals, test gating, and main protection
-* **Artifact-based release** that ensures only tested builds reach production
-* **YAML-as-code philosophy** for full traceability and versioning
-* **Separation of CI and CD** to enhance observability and auditability
+Ensuring that only validated code reaches the production environment by enforcing approvals and test gates
+
+Keeping the CI and CD pipelines modular and separate for clarity, better observability, and easier debugging
+
+Using YAML as code to make the pipelines version-controlled and easy to maintain over time
+
+This assignment helped me strengthen my understanding of Azure Pipelines, artifact handling, and App Service deployments in a real-world scenario.
 
 ---
 
