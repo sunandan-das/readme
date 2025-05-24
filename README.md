@@ -1,4 +1,4 @@
-# DevOps CI and  Pipeline for .NET API
+# DevOps CI and Pipeline for .NET API
 
 ## Overview
 
@@ -32,12 +32,14 @@ This repository showcases a real-world DevOps CI/CD pipeline implementation for 
 ## 📁 Repository Structure
 
 ```
-/azure-pipelines/
-  azure-build.yml         # CI pipeline definition
-  azure-release.yml       # CD pipeline definition
-/src                      # .NET source files
-/tests                    # Unit tests
-README.md                 # Project documentation
+.vscode/                 # VS Code settings
+src/                     # .NET source files
+tests/                   # Unit tests
+azure-build.yml          # CI pipeline definition
+azure-release.yml        # CD pipeline definition
+CounterApi.sln           # Solution file
+LICENSE.txt              # License
+README.md                # Project documentation
 ```
 
 ---
@@ -181,7 +183,7 @@ steps:
 
 ---
 
-## 🔁 End-to-End Workflow
+## 🔄 End-to-End Workflow
 
 ```mermaid
 graph TD
