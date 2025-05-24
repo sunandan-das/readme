@@ -198,7 +198,7 @@ graph TD
 
 ---
 ## Thought Process & Design Decisions
-* The .NET source code was provided as part of the assignment, and I chose Azure App Service because it's a fully managed platform that makes it easy to deploy and scale web applications without managing underlying infrastructure. I set up the App Service to align with the assignment requirements and ensure seamless deployment from Azure Pipelines. My focus was on building a secure and automated CI/CD pipeline that cleanly deploys to this infrastructure without manual intervention.
+* I chose Azure App Service because it's a fully managed platform that makes it easy to deploy and scale web applications without managing underlying infrastructure. I set up the App Service to align with the assignment requirements and ensure seamless deployment from Azure Pipelines. My focus was on building a secure and automated CI/CD pipeline that cleanly deploys to this infrastructure without manual intervention.
 
 * I chose artifact-based deployment using zipped build outputs. This made it easier to separate build and release stages and ensured consistency in what gets deployed.
 
