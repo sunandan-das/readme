@@ -198,15 +198,19 @@ graph TD
 
 ---
 
-While working on this assignment, I wanted to approach it the way I would if I were building a CI/CD pipeline for a real-world team. My key focus areas were:
+* The .NET source code was provided as part of the assignment, and I chose Azure App Service because it's a fully managed platform that makes it easy to deploy and scale web applications without managing underlying infrastructure. I set up the App Service to align with the assignment requirements and ensure seamless deployment from Azure Pipelines. My focus was on building a secure and automated CI/CD pipeline that cleanly deploys to this infrastructure without manual intervention.
 
-Making the entire workflow secure, automated, and reproducible from the start
+* I chose artifact-based deployment using zipped build outputs. This made it easier to separate build and release stages and ensured consistency in what gets deployed.
 
-Ensuring that only validated code reaches the production environment by enforcing approvals and test gates
+* For authentication, I used workload identity federation with an App Registration. This lets the pipeline connect to Azure resources securely without storing secrets, which aligns with enterprise-grade security standards.
 
-Keeping the CI and CD pipelines modular and separate for clarity, better observability, and easier debugging
+* I selected the Canada Central region because it's geographically closer to Ireland, helping reduce latency while staying cost-effective.
 
-Using YAML as code to make the pipelines version-controlled and easy to maintain over time
+* I preferred Azure Repos over other platforms to keep everything within a unified Azure DevOps ecosystem. This simplifies permissions, service connections, and automation setup.
+
+* The CI pipeline is responsible for restoring packages, running unit tests, building the solution, and publishing a zipped artifact. The CD pipeline picks up the artifact and deploys it to the Azure App Service.
+
+* Overall, I focused on keeping the setup modular, readable, and practical — just like how I’d approach a similar project in a real-world DevOps role.
 
 
 ---
