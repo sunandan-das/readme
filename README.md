@@ -208,7 +208,6 @@ Keeping the CI and CD pipelines modular and separate for clarity, better observa
 
 Using YAML as code to make the pipelines version-controlled and easy to maintain over time
 
-This assignment helped me strengthen my understanding of Azure Pipelines, artifact handling, and App Service deployments in a real-world scenario.
 
 ---
 
