@@ -1,4 +1,4 @@
-# DevOps CI/CD Pipeline for .NET Counter API
+# DevOps CI and  Pipeline for .NET API
 
 ## Overview
 
