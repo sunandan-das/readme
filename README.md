@@ -216,6 +216,9 @@ I approached this project like I would in a real DevOps role, with reliability, 
 ---
 
 ## 🧠 Design Decisions
+* **CI Pipeline Design: I structured the CI pipeline to be a gatekeeper. It restores dependencies, runs tests, builds the solution, and publishes a deployable artifact — all within a single pipeline. I made sure it's triggered only when needed (on PRs and merges to main) to keep builds efficient and relevant. The CI pipeline ensures that every change is validated before being considered safe for deployment.
+
+* **CD Pipeline Design: The CD pipeline is intentionally minimal and reliable. It simply pulls the artifact that passed CI and pushes it to Azure App Service.  This separation avoids duplication and makes the deployment process predictable and simple.
 
 * **Azure App Service (Linux, .NET 8)**: I chose Azure App Service for its developer-friendly platform-as-a-service model, which means i dont have to take care of the infrastructure and lets me focus purely on pipelines. Combined with native scaling and logging, it gives me a good platform to deploy the web app.
 
