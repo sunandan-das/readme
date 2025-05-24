@@ -216,9 +216,9 @@ I approached this project like I would in a real DevOps role, with reliability, 
 ---
 
 ## 🧠 Design Decisions
-* **CI Pipeline Design: I structured the CI pipeline to be a gatekeeper. It restores dependencies, runs tests, builds the solution, and publishes a deployable artifact — all within a single pipeline. I made sure it's triggered only when needed (on PRs and merges to main) to keep builds efficient and relevant. The CI pipeline ensures that every change is validated before being considered safe for deployment.
+* **CI Pipeline Design**: I structured the CI pipeline to be a gatekeeper. It restores dependencies, runs tests, builds the solution, and publishes a deployable artifact — all within a single pipeline. I made sure it's triggered only when needed (on PRs and merges to main) to keep builds efficient and relevant. The CI pipeline ensures that every change is validated before being considered safe for deployment.
 
-* **CD Pipeline Design: The CD pipeline is intentionally minimal and reliable. It simply pulls the artifact that passed CI and pushes it to Azure App Service.  This separation avoids duplication and makes the deployment process predictable and simple.
+* **CD Pipeline Design**: The CD pipeline is intentionally minimal and reliable. It simply pulls the artifact that passed CI and pushes it to Azure App Service.  This separation avoids duplication and makes the deployment process predictable and simple.
 
 * **Azure App Service (Linux, .NET 8)**: I chose Azure App Service for its developer-friendly platform-as-a-service model, which means i dont have to take care of the infrastructure and lets me focus purely on pipelines. Combined with native scaling and logging, it gives me a good platform to deploy the web app.
 
@@ -228,9 +228,8 @@ I approached this project like I would in a real DevOps role, with reliability, 
 
 * **Azure Pipelines**: I deliberately chose Azure Pipelines for its deep integration with Azure services, YAML file support, and seamless service connection with my Azure App Service. It let me script and visualize the entire pipeline lifecycle from one place.
 
-* **CI/CD Pipelines**:  As mentioned in the assignment requirement I kept CI and CD distinct to enforce clean responsibilities, CI validates the code, CD handles the deployment. Keeping CI and CD separate makes it easy to manage and update them in the future.
 
-This setup helped me to build the applciation following good DevOps practices, balancing simplicity, security, and operational excellence.
+This setup helped me to deploy the applciation following good DevOps practices, balancing simplicity, and security.
 
 ---
 
