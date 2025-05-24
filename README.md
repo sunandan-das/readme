@@ -199,17 +199,17 @@ graph TD
 ---
 ## 🎯 Thought Process
 
-This wasn’t just about ticking checkboxes — I approached this project like I would in a real DevOps role, with reliability, clarity, and automation at the center.
+I approached this project like I would in a real DevOps role, with reliability, clarity, and automation at the center.
 
-* The `.NET 8` codebase was provided, but I took full ownership of setting up the cloud environment. I chose **Azure App Service** because it's scalable, managed, and integrates smoothly with Azure DevOps — a perfect fit for a demo that should feel production-ready.
+* The `.NET 8` codebase was provided, so I took full ownership of setting up the cloud environment. I chose **Azure App Service** because it's scalable, managed, and integrates smoothly with Azure DevOps.
 
 * I wanted **zero manual steps**, so I built a fully automated pipeline that handles everything from code validation to deployment. This included setting up secure authentication using **Workload Identity Federation** — no secrets, just clean trust-based access.
 
-* The **CI pipeline** ensures the app is always production-safe. It restores dependencies, runs unit tests, builds the app, and publishes a versioned artifact. It's triggered by PRs and merges to `main`, ensuring every build is traceable.
+* I have written the **CI pipeline** in such a way which ensures the app is always production safe. It restores dependencies, runs unit tests, builds the app, and publishes a versioned artifact. It's triggered by PRs and merges to `main`, ensuring every build is traceable.
 
-* I set up the **CD pipeline** to only trigger on successful CI runs. It pulls the exact artifact that passed validation and deploys it to the App Service. Clean separation of concerns, just like in a mature DevOps environment.
+* I set up the **CD pipeline** to only trigger on successful CI runs. It pulls the exact artifact that passed validation and deploys it to the App Service. Clean separation of concerns, here i am following a good devops practice.
 
-* I picked **Canada Central** as the deployment region — it’s close to Ireland where I'm based, which helps with performance and mirrors how I’d approach region selection in practice.
+* I picked **Canada Central** as the deployment region, it’s close to Ireland where I am based, which helps with performance and mirrors how I would approach region selection in practice.
 
 * Everything is stored and versioned in **Azure Repos**, keeping the entire workflow inside the Azure ecosystem — simple, consistent, and secure.
 
@@ -217,17 +217,17 @@ This wasn’t just about ticking checkboxes — I approached this project like I
 
 ## 🧠 Design Decisions
 
-* **Azure App Service (Linux, .NET 8)**: I chose Azure App Service for its developer-friendly platform-as-a-service model. It abstracts away the infrastructure headaches and lets me focus purely on code and pipelines. Combined with native scaling and logging, it gives me a battle-tested surface to deploy production-grade web apps.
+* **Azure App Service (Linux, .NET 8)**: I chose Azure App Service for its developer-friendly platform-as-a-service model, which means i dont have to take care of the infrastructure and lets me focus purely on pipelines. Combined with native scaling and logging, it gives me a good platform to deploy the web app.
 
-* **Artifact-based deployment**: I opted to generate zipped artifacts in CI to make my CD pipeline fast, predictable, and repeatable. It allows me to treat builds as immutable release units — no more building twice or deploying unverified code.
+* **Artifact-based deployment**: I opted to generate zipped artifacts in CI to make my CD pipeline fast, predictable, and repeatable. It allows me to treat builds as immutable release units.
 
 * **Workload Identity Federation**: Instead of relying on stored secrets, I implemented a secretless authentication flow using workload identity federation. It's secure, modern, and aligns with how enterprise systems handle access at scale.
 
-* **Azure Pipelines**: I deliberately chose Azure Pipelines for its deep integration with Azure services, powerful YAML support, and seamless service connection with my Azure App Service. It let me script and visualize the entire pipeline lifecycle from one place.
+* **Azure Pipelines**: I deliberately chose Azure Pipelines for its deep integration with Azure services, YAML file support, and seamless service connection with my Azure App Service. It let me script and visualize the entire pipeline lifecycle from one place.
 
-* **Separation of CI/CD Pipelines**: While many combine them, I kept CI and CD distinct to enforce clean responsibilities — CI validates the code, CD handles trusted deployment. This design improves debuggability and sets a strong foundation for future pipeline growth (e.g., adding test or staging environments).
+* **CI/CD Pipelines**:  As mentioned in the assignment requirement I kept CI and CD distinct to enforce clean responsibilities, CI validates the code, CD handles the deployment. Keeping CI and CD separate makes it easy to manage and update them in the future.
 
-This setup isn't just a proof of concept — it mirrors the structure I'd build in any real-world DevOps implementation, balancing simplicity, security, and operational excellence. — it was built to reflect real-world thinking, and I treated this like infrastructure I’d be proud to support in production.
+This setup helped me to build the applciation following good DevOps practices, balancing simplicity, security, and operational excellence.
 
 ---
 
