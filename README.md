@@ -18,7 +18,7 @@ This project demonstrates an end-to-end DevOps workflow that includes:
 Initially, I set up a simple CI/CD pipeline using standard dotnet build and ZIP-based artefacts deployment, just to validate that the build worked and the app could be deployed to Azure App Service.  
 After that I moved to a Docker based multi-stage pipeline for better control and consistency, this will help everyone to deploy the image to any environment without any dependency issue. This approach allowed me to containerize the app cleanly, optimize build layers, and push images to ACR as artifacts.  
 I structured the pipeline into three CI stages:  
-**Test**: Run unit tests early to fail fast  
+**Test**: Run unit tests  
 **Build**: Compile and restore dependencies  
 **Publish**: Docker build and push to ACR  
 
@@ -27,7 +27,7 @@ Then I separated out CD as a single deployment stage, which deploys the Docker i
 ---
 ## Azure Container Registry
 
-Initially considered Docker Hub, but switched to **Azure Container Registry (ACR)** because of Seamless integration with Azure App Service through service connections it is easier and more secure setup without managing access tokens
+I have used **Azure Container Registry (ACR)** instead of Dockerhub because of seamless integration with Azure App Service through service connections it is also easier and more secure setup without managing access tokens
 
 ---
 
