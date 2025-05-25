@@ -181,5 +181,3 @@ Ensures safe, auditable changes to the production `master` branch.
 7. Live URL confirmed successful deployment
 
 ---
-
-> End-to-end automation verified with successful deployment of live .NET application to Azure App Service using container-based CI/CD.
