@@ -40,13 +40,7 @@ I had the option to choose GitHub for managing my repository but I chose Azure R
 
 ## Branch Strategy
 
-- **Branch protection**: Master branch is protected by disabling direct commits.
-- **Working changes** happen in a `dev` branch.
-- **Pull request (PR) workflow** enabled:
-  - CI runs automatically on PRs
-  - Once CI passes, PR can be approved and merged
-
-This adds better control over changes and ensures the master branch remains stable.
+I have created branch polices to protected the master branch by disabling direct commits. I created a dev branch for all working changes and enabled a pull request workflow. CI runs automatically on PRs, and once the build passes, the PR can be approved and merged. This will have more control over unnecessary changes and make the master branch safe.
 
 ---
 
