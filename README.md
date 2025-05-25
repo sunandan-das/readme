@@ -43,7 +43,7 @@ I have created branch polices to protected the master branch by disabling direct
 
 ---
 
-Azure Portal infrastructure setup
+## Azure Portal infrastructure setup
 Resource Group:
 I created a resource group named docosoft-assignment in the West Europe region. This served as a container for managing all related resources such as the App Service and Azure Container Registry in a centralized and organized way.
 
