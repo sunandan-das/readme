@@ -24,15 +24,6 @@ I structured the pipeline into three CI stages:
 
 Then I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.  
 
-
-### CI Pipeline Stages
-
-1. **Test** – Run unit tests early to fail fast  
-2. **Build** – Compile and restore dependencies  
-3. **Publish** – Docker build and push to ACR
-
-> I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.
-
 ---
 
 ## Azure Container Registry
