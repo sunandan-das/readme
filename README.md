@@ -28,9 +28,7 @@ Then I separated out CD as a single deployment stage, which deploys the Docker i
 
 ## Azure Container Registry
 
-- Initially considered Docker Hub, but switched to **Azure Container Registry (ACR)** because:
-  - Seamless integration with Azure App Service via service connections
-  - Easier and more secure setup without managing access tokens
+Initially considered Docker Hub, but switched to **Azure Container Registry (ACR)** because of Seamless integration with Azure App Service through service connections it is easier and more secure setup without managing access tokens
 
 ---
 
