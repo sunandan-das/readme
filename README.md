@@ -44,35 +44,15 @@ I have created branch polices to protected the master branch by disabling direct
 
 ---
 
-## Infrastructure Setup using Azure Portal
+Azure Portal infrastructure setup
+Resource Group:
+A resource group named docosoft-assignment was created in the West Europe region. This serves as a logical container to organize and manage all related Azure resources such as the App Service and Azure Container Registry. It simplifies cost management, monitoring, and access control.
 
-### 1. Resource Group Creation
+App Service:
+An Azure App Service named docosoft-counter-app was provisioned using the Linux operating system. The app is deployed via Docker Container for consistent and portable deployment. A System-assigned Managed Identity was enabled to securely authenticate with other Azure services without storing credentials manually.
 
-- Created **Resource Group**: `docosoft-assignment`
-- Region: **West Europe**
-- Purpose: Group related resources for better management and cost tracking
-
----
-
-### 2. App Service Configuration
-
-- **App Service Name**: `docosoft-counter-app`
-- OS: **Linux**
-- Plan: **Basic B1 (1.75 GB RAM)**
-- Region: **West Europe**
-- Publishing method: **Docker Container**
-
-Enabled **System-assigned Managed Identity** for secure ACR authentication (no Docker Hub creds or manual secrets needed).
-
----
-
-### 3. Azure Container Registry (ACR)
-
-- Name: `docosoftcounter`
-- Region: **West Europe**
-- Placed in same resource group for performance and simplicity
-- Assigned **AcrPull** role to App Service’s managed identity to securely pull images
-
+Azure Container Registry (ACR):
+An ACR instance named docosoftcounter was created in the same region and resource group for better performance and simplicity. The AcrPull role was assigned to the App Service’s managed identity, allowing it to securely pull Docker images from the registry.
 ---
 
 ## Azure DevOps Setup (CI/CD Implementation)
