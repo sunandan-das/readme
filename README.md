@@ -25,7 +25,6 @@ I structured the pipeline into three CI stages:
 Then I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.  
 
 ---
-
 ## Azure Container Registry
 
 Initially considered Docker Hub, but switched to **Azure Container Registry (ACR)** because of Seamless integration with Azure App Service through service connections it is easier and more secure setup without managing access tokens
@@ -53,6 +52,7 @@ I deployed an App Service named docosoft-counter-app, running on Linux in the We
 
 Azure Container Registry (ACR):
 I created a container registry named docosoftcounter in the same region. This registry stores Docker images built by the CI pipeline. I enabled system-assigned managed identity on the App Service and assigned the AcrPull role to it in ACR. This allows secure and seamless image pulls without storing credentials.
+
 ---
 
 ## Azure DevOps Setup
@@ -89,7 +89,7 @@ I wrote a multi-stage Dockerfile to optimize the build process and reduce the im
 
 ### PR Workflow Steps
 
-1. Created a `dev` branch → pushed changes  
+1. I have created a `dev` branch → pushed changes to it
 2. Raised PR → `dev` to `master`  
 3. CI pipeline ran automatically:  
    - Restore, Build, Test, Docker Push  
