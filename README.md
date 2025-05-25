@@ -2,100 +2,308 @@
 
 This project demonstrates an end-to-end DevOps workflow that includes:
 
-- CI/CD pipeline using **Azure DevOps Pipelines**  
-- Containerization of the **.NET 8 Web API using Docker**  
-- Hosting through **Azure App Service**  
-- Source control maintained through **Azure Repos**  
-- Docker container registry used: **Azure Container Registry (ACR)**  
-- Deployment security through **branch protection and PR workflows**
+* CI/CD pipeline using **Azure DevOps Pipelines**
+* Containerization of the **.NET 8 Web API using Docker**
+* Hosting through **Azure App Service**
+* Source control maintained through **Azure Repos**
+* Docker container registry used: **Azure Container Registry (ACR)**
+* Deployment security through **branch protection and PR workflows**
 
 ---
 
-## Design decisions and Thought Process Behind the Project
+## Application URL
 
-## Pipeline Structure
+**Live Endpoint:** [https://docosoft-counter-app-asgbfthybzfwafg0.westeurope-01.azurewebsites.net/count](https://docosoft-counter-app-asgbfthybzfwafg0.westeurope-01.azurewebsites.net/count)
 
-Initially, I set up a simple CI/CD pipeline using standard dotnet build and ZIP-based artefacts deployment, just to validate that the build worked and the app could be deployed to Azure App Service.  
-After that I moved to a Docker based multi-stage pipeline for better control and consistency, this will help everyone to deploy the image to any environment without any dependency issue. This approach allowed me to containerize the app cleanly, optimize build layers, and push images to ACR as artifacts.  
-I structured the pipeline into three CI stages:  
-**Test**: Run unit tests  
-**Build**: Compile and restore dependencies  
-**Publish**: Docker build and push to ACR  
 
-Then I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.  
-
----
-## Azure Container Registry
-
-I have used **Azure Container Registry (ACR)** instead of Dockerhub because of seamless integration with Azure App Service through service connections it is also easier and more secure setup without managing access tokens
-
+![Ci Pipeline](./screenshots/webapp.jpg)
 ---
 
-## Azure Repos
+## Azure repository Structure
 
-I had the option to choose GitHub for managing my repository but I chose Azure Repos to keep everything within the same ecosystem. So  managing code, pipelines, and policies were easier as all was in one place. Also I had the option to write the YAML in the Azure devops to test my ci and cd triggers. 
+```bash
+.
+├── src/                      # Source code of the .NET Web API
+├── tests/                    # Unit test project
+├── azure-build.yml           # CI pipeline YAML definition
+├── azure-release.yml         # CD pipeline YAML definition
+└── Dockerfile                # Multi-stage Dockerfile for the application
+```
 
 ---
 
-## Branch Strategy
+## High-Level Architecture
 
-I have created branch polices to protected the master branch by disabling direct commits. I created a dev branch for all working changes and enabled a pull request workflow. CI runs automatically on PRs, and once the build passes, the PR can be approved and merged. This will have more control over unnecessary changes and make the master branch safe.
+![CI/CD Architecture](./screenshots/architecture.jpg)
 
 ---
 
-## Azure Portal infrastructure setup
-Resource Group:
-I created a resource group named docosoft-assignment in the West Europe region. This served as a container for managing all related resources such as the App Service and Azure Container Registry in a centralized and organized way.
+## Design Decisions and Thought Process Behind the Project
 
-App Service:
-I deployed an App Service named docosoft-counter-app, running on Linux in the West Europe region. For the hosting plan, I selected the Basic B3 tier, which offers 3.5 GB of memory—sufficient for stable containerized .NET application deployment.
+### Pipeline Structure
 
-Azure Container Registry (ACR):
-I created a container registry named docosoftcounter in the same region. This registry stores Docker images built by the CI pipeline. I enabled system-assigned managed identity on the App Service and assigned the AcrPull role to it in ACR. This allows secure and seamless image pulls without storing credentials.
+Initially, I set up a simple CI/CD pipeline using standard `dotnet build` and ZIP-based artefacts deployment, just to validate that the build worked and the app could be deployed to Azure App Service.
+After that, I moved to a Docker-based multi-stage pipeline for better control and consistency, allowing deployment to any environment without dependency issues.
+The pipeline has three CI stages:
+
+* **Test**: Run unit tests
+* **Build**: Compile and restore dependencies
+* **Publish**: Docker build and push to ACR
+
+Then I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.
+
+---
+
+### Azure Container Registry
+
+I chose **Azure Container Registry (ACR)** over Docker Hub because of its seamless integration with Azure App Service through service connections. It also provides a more secure setup without the need to manage access tokens.
+
+---
+
+### Azure Repos
+
+I used Azure Repos instead of GitHub to keep the entire workflow within the Azure DevOps ecosystem. This made it easier to manage code, pipelines, and policies all in one place, and also allowed direct YAML authoring within the portal.
+
+---
+
+### Branch Strategy
+
+I implemented branch policies to protect the `master` branch by disabling direct commits. All working changes are made in a `dev` branch. Pull requests trigger CI automatically, and once builds pass, the PR can be approved and merged. This ensures the `master` branch stays stable.
+
+---
+
+## Azure Portal Infrastructure Setup
+
+### Resource Group
+
+I created a resource group named `docosoft-assignment` in the West Europe region. It groups all resources like App Service and ACR for centralized management.
+
+![Resource Group](./screenshots/resource.jpg)
+
+---
+
+### App Service
+
+I deployed an App Service named `docosoft-counter-app`, running on Linux with a B3 plan (3.5 GB RAM). Docker container was used for deployment, and system-assigned managed identity was enabled.
+
+![App Service](./screenshots/appservice.jpg)
+
+---
+
+### Azure Container Registry (ACR)
+
+I created a container registry named `docosoftcounter` in the same region. It stores Docker images built by the CI pipeline. I assigned the AcrPull role to the App Service’s managed identity for secure image pulls.
+
+![Azure Container Registry](./screenshots/container.jpg)
 
 ---
 
 ## Azure DevOps Setup
 
-### Repository Setup:
+### Repository Setup
 
-I used the `docosoft-assignment` repository under the `docosoft-api-project` in Azure Repos. The repo contains the .NET application code along with two YAML files: `azure-build.yml` for CI and `azure-release.yml` for CD. Keeping everything in one place ensured easy version control and seamless pipeline integration.
+I used the `docosoft-assignment` repository under the `docosoft-api-project` in Azure Repos. The repo contains:
 
-### CI Pipeline – `azure-build.yml`:
+* .NET source code
+* `azure-build.yml` (CI pipeline)
+* `azure-release.yml` (CD pipeline)
 
-I created the `azure-build.yml` file to define my CI pipeline. It runs automatically whenever I push changes to the `master` branch. I used the Microsoft-hosted `ubuntu-latest` agent and structured the pipeline into three stages — test, build, and publish. First, it restores dependencies and runs unit tests. Then it builds the .NET application and finally uses a multi-stage Dockerfile to build and push the Docker image to my ACR (`docosoftcounter`).
-
-### CD Pipeline – `azure-release.yml`:
-
-To handle deployments, I created a separate CD pipeline in `azure-release.yml`. This pipeline either runs manually or is triggered after a successful CI build. It pulls the latest image from ACR and deploys it to my Azure App Service (`docosoft-counter-app`) using the `AzureWebAppContainer@1` task. Keeping CI and CD separate made it easier for me to test and debug each part independently.
-
-### Service Connections:
-
-In Azure DevOps, I set up two service connections to securely integrate with my Azure resources. The first one is an Azure Resource Manager connection named `sunandan`, which I used to manage deployments to App Service. The second one connects to ACR and uses managed identity, so I didn’t have to deal with storing credentials or access tokens.
-
-### Dockerfile:
-
-I wrote a multi-stage Dockerfile to optimize the build process and reduce the image size. In the first stage, I compile and publish the .NET application. In the second stage, I copy the published output into a lightweight runtime image that’s used for deployment on Azure App Service.
 
 ---
+
+### CI Pipeline – `azure-build.yml`
+
+The CI pipeline runs on every push to `master`. It restores dependencies, runs tests, builds the .NET app, and creates/pushes the Docker image to ACR using a multi-stage Dockerfile.
+
+```yaml
+trigger:
+  branches:
+    include:
+      - master  # Trigger CI pipeline when changes are pushed to master
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  dockerRegistryServiceConnection: '8a597463-f084-4d63-9c64-6a540d53b1ec'
+  imageRepository: 'counterapi'
+  containerRegistry: 'docosoftcounter.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Test
+  displayName: 'Test the Application'
+  jobs:
+  - job: RunTests
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+    - script: dotnet restore CounterApi.sln
+      displayName: 'Restore Dependencies'
+    - script: dotnet test CounterApi.sln --configuration Release --verbosity normal
+      displayName: 'Run Unit Tests'
+
+- stage: Build
+  displayName: 'Build the Application'
+  dependsOn: Test
+  jobs:
+  - job: BuildApp
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+    - script: dotnet build CounterApi.sln --configuration Release
+      displayName: 'Build Solution'
+
+- stage: Publish
+  displayName: 'Publish via Docker to ACR'
+  dependsOn: Build
+  jobs:
+  - job: DockerPush
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - checkout: self
+    - task: Docker@2
+      displayName: 'Build and Push Docker Image'
+      inputs:
+        command: buildAndPush
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          $(tag)
+          latest
+```
+
+It restores dependencies, runs tests, builds the .NET app, and creates/pushes the Docker image to ACR using a multi-stage Dockerfile.
+
+![Ci Pipeline](./screenshots/ci.jpg)
+
+
+---
+
+### CD Pipeline – `azure-release.yml`
+
+The CD pipeline deploys the image from ACR to Azure App Service. It’s triggered either automatically after a successful CI build.
+
+```yaml
+trigger: none  # Triggers after CI pipeline succeeds
+
+resources:
+  pipelines:
+    - pipeline: buildPipeline
+      source: azure-build
+      trigger:
+        branches:
+          include:
+            - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  webAppName: 'docosoft-counter-app'
+  imageName: 'counterapi'
+  acrLoginServer: 'docosoftcounter.azurecr.io'
+  dockerTag: 'latest'
+
+steps:
+- task: AzureWebAppContainer@1
+  displayName: 'Deploy Docker Image to Azure App Service'
+  inputs:
+    azureSubscription: 'sunandan'
+    appName: '$(webAppName)'
+    containers: '$(acrLoginServer)/$(imageName):$(dockerTag)'
+```
+
+
+
+![CD Pipeline](./screenshots/cd.jpg)
+
+---
+
+### Service Connections
+
+I created two service connections in Azure DevOps:
+
+* Azure Resource Manager (`sunandan`) for App Service deployments
+* Docker registry (to ACR) using managed identity for secure image operations
+
+---
+
+### Dockerfile
+
+The Dockerfile uses a multi-stage build:
+
+* Stage 1: Compiles and publishes the .NET app
+* Stage 2: Builds a clean runtime image for App Service
+
+```dockerfile
+# ---------- Build Stage ----------
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /app
+
+# Copy solution and all source folders
+COPY CounterApi.sln ./
+COPY src/ ./src/
+COPY tests/ ./tests/
+
+# Restore dependencies
+RUN dotnet restore
+
+# Build and publish the app
+RUN dotnet publish src/CounterApi.csproj -c Release -o /app/publish
+
+# ---------- Runtime Stage ----------
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "CounterApi.dll"]
+```
+
+* Stage 1: Compiles and publishes the .NET app
+* Stage 2: Builds a clean runtime image for App Service
+
+---
+
+## PR Workflow and Branch Policies
 
 ### Branch Policy
 
-- Blocked direct commits to `master`
-- Feature/Dev branches must raise a **PR**
-- PR creator is allowed to approve if build passes
+* Direct commits to `master` are blocked
+* All changes go through pull requests
+* PR creator can approve if CI passes
 
 ---
 
+
 ### PR Workflow Steps
 
-1. I have created a `dev` branch → pushed changes to it
-2. Raised PR → `dev` to `master`  
-3. CI pipeline ran automatically:  
-   - Restore, Build, Test, Docker Push  
-4. If successful → PR approved  
-5. On merge → CI re-ran on `master`  
-6. CD pipeline deployed latest Docker image to App Service  
-7. Live URL confirmed successful deployment
+1. User Pushed code to `dev` branch
+2. Created PR → `dev` to `master`
+3. CI pipeline automatically triggered:
+
+   * Restore, Build, Test, Docker Push
+4. After success → PR approved
+5. Merge to `master` → CI triggered again
+6. CD pipeline deployed image to App Service
+7. App was accessible via live URL
+
+![PR](./screenshots/pr.jpg)
+
 
 ---
