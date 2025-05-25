@@ -34,9 +34,7 @@ Initially considered Docker Hub, but switched to **Azure Container Registry (ACR
 
 ## Azure Repos
 
-- I chose Azure Repos over GitHub to keep everything within the same ecosystem.
-- Managing code, pipelines, and policies became simpler in one place.
-- Also enabled YAML authoring/testing directly inside Azure DevOps.
+I had the option to choose GitHub for managing my repository but I chose Azure Repos to keep everything within the same ecosystem. So  managing code, pipelines, and policies were easier as all was in one place. Also I had the option to write the YAML in the Azure devops to test my ci and cd triggers. 
 
 ---
 
