@@ -46,13 +46,13 @@ I have created branch polices to protected the master branch by disabling direct
 
 Azure Portal infrastructure setup
 Resource Group:
-A resource group named docosoft-assignment was created in the West Europe region. This serves as a logical container to organize and manage all related Azure resources such as the App Service and Azure Container Registry. It simplifies cost management, monitoring, and access control.
+I created a resource group named docosoft-assignment in the West Europe region. This served as a container for managing all related resources such as the App Service and Azure Container Registry in a centralized and organized way.
 
 App Service:
-An Azure App Service named docosoft-counter-app was provisioned using the Linux operating system. The app is deployed via Docker Container for consistent and portable deployment. A System-assigned Managed Identity was enabled to securely authenticate with other Azure services without storing credentials manually.
+I deployed an App Service named docosoft-counter-app, running on Linux in the West Europe region. For the hosting plan, I selected the Basic B3 tier, which offers 3.5 GB of memory—sufficient for stable containerized .NET application deployment.
 
 Azure Container Registry (ACR):
-An ACR instance named docosoftcounter was created in the same region and resource group for better performance and simplicity. The AcrPull role was assigned to the App Service’s managed identity, allowing it to securely pull Docker images from the registry.
+I created a container registry named docosoftcounter in the same region. This registry stores Docker images built by the CI pipeline. I enabled system-assigned managed identity on the App Service and assigned the AcrPull role to it in ACR. This allows secure and seamless image pulls without storing credentials.
 ---
 
 ## Azure DevOps Setup (CI/CD Implementation)
