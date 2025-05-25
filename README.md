@@ -11,7 +11,7 @@ This project demonstrates an end-to-end DevOps workflow that includes:
 
 ---
 
-## Thought Process Behind the Project
+## Design decisions and Thought Process Behind the Project
 
 ### Pipeline Structure
 
