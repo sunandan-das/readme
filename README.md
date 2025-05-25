@@ -13,11 +13,17 @@ This project demonstrates an end-to-end DevOps workflow that includes:
 
 ## Design decisions and Thought Process Behind the Project
 
-### Pipeline Structure
+## Pipeline Structure
 
-- Initially, I set up a simple CI/CD pipeline using standard `dotnet build` and **ZIP-based artefact deployment**, just to validate that the build worked and the app could be deployed to Azure App Service.
-- After that, I moved to a **Docker-based multi-stage pipeline** for better control and consistency, helping anyone deploy the image to any environment without dependency issues.
-- This approach allowed me to containerize the app cleanly, optimize build layers, and push images to ACR as artifacts.
+Initially, I set up a simple CI/CD pipeline using standard dotnet build and ZIP-based artefacts deployment, just to validate that the build worked and the app could be deployed to Azure App Service.  
+After that I moved to a Docker based multi-stage pipeline for better control and consistency, this will help everyone to deploy the image to any environment without any dependency issue. This approach allowed me to containerize the app cleanly, optimize build layers, and push images to ACR as artifacts.  
+I structured the pipeline into three CI stages:  
+**Test**: Run unit tests early to fail fast  
+**Build**: Compile and restore dependencies  
+**Publish**: Docker build and push to ACR  
+
+Then I separated out CD as a single deployment stage, which deploys the Docker image to Azure App Service.  
+
 
 ### CI Pipeline Stages
 
