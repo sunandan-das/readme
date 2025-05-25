@@ -57,23 +57,23 @@ I created a container registry named docosoftcounter in the same region. This re
 
 ## Azure DevOps Setup
 
-### 🔹 Repository Setup:
+### Repository Setup:
 
 I used the `docosoft-assignment` repository under the `docosoft-api-project` in Azure Repos. The repo contains the .NET application code along with two YAML files: `azure-build.yml` for CI and `azure-release.yml` for CD. Keeping everything in one place ensured easy version control and seamless pipeline integration.
 
-### 🔹 CI Pipeline – `azure-build.yml`:
+### CI Pipeline – `azure-build.yml`:
 
 I created the `azure-build.yml` file to define my CI pipeline. It runs automatically whenever I push changes to the `master` branch. I used the Microsoft-hosted `ubuntu-latest` agent and structured the pipeline into three stages — test, build, and publish. First, it restores dependencies and runs unit tests. Then it builds the .NET application and finally uses a multi-stage Dockerfile to build and push the Docker image to my ACR (`docosoftcounter`).
 
-### 🔹 CD Pipeline – `azure-release.yml`:
+### CD Pipeline – `azure-release.yml`:
 
 To handle deployments, I created a separate CD pipeline in `azure-release.yml`. This pipeline either runs manually or is triggered after a successful CI build. It pulls the latest image from ACR and deploys it to my Azure App Service (`docosoft-counter-app`) using the `AzureWebAppContainer@1` task. Keeping CI and CD separate made it easier for me to test and debug each part independently.
 
-### 🔹 Service Connections:
+### Service Connections:
 
 In Azure DevOps, I set up two service connections to securely integrate with my Azure resources. The first one is an Azure Resource Manager connection named `sunandan`, which I used to manage deployments to App Service. The second one connects to ACR and uses managed identity, so I didn’t have to deal with storing credentials or access tokens.
 
-### 🔹 Dockerfile:
+### Dockerfile:
 
 I wrote a multi-stage Dockerfile to optimize the build process and reduce the image size. In the first stage, I compile and publish the .NET application. In the second stage, I copy the published output into a lightweight runtime image that’s used for deployment on Azure App Service.
 
